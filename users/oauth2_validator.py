@@ -15,11 +15,12 @@ class CustomOAuth2Validator(OAuth2Validator):
         # Anzeigename
         claims["name"] = user.display_name
 
-        # Alle Rollenzuweisungen als Dict: { "spielbetrieb": "koordinator", ... }
-        roles = {
-            a["app"]: a["role"]
-            for a in AppRoleAssignment.objects.filter(user=user).values("app", "role")
-        }
+        # Alle Rollenzuweisungen als Dict: { "spielbetrieb": { "role": "benutzer", "team": "1. Herren" }, ... }
+        roles = {}
+        for a in AppRoleAssignment.objects.filter(user=user).values("app", "role", "team"):
+            roles[a["app"]] = {"role": a["role"]}
+            if a["team"]:
+                roles[a["app"]]["team"] = a["team"]
         if roles:
             claims["roles"] = roles
 

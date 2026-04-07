@@ -6,7 +6,7 @@ from .models import CustomUser, AppRoleAssignment
 class AppRoleAssignmentInline(admin.TabularInline):
     model = AppRoleAssignment
     extra = 1
-    fields = ("app", "role", "granted_at")
+    fields = ("app", "role", "team", "granted_at")
     readonly_fields = ("granted_at",)
     fk_name = "user"
 

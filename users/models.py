@@ -62,6 +62,14 @@ class AppRoleAssignment(models.Model):
     role = models.CharField(
         max_length=50, choices=Role.choices, verbose_name="Rolle"
     )
+    # Optionales Team-Feld — relevant für Spielbetrieb-Trainer (Rolle: benutzer)
+    # Beispiele: "1. Herren", "U19", "Damen"
+    team = models.CharField(
+        max_length=100,
+        blank=True,
+        verbose_name="Mannschaft",
+        help_text="Nur für Spielbetrieb-Trainer relevant. Exakt so schreiben wie in der Saisonplanung.",
+    )
     granted_by = models.ForeignKey(
         CustomUser,
         null=True,
