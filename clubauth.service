@@ -1,0 +1,18 @@
+[Unit]
+Description=ClubAuth – FCTM Benutzerverwaltung
+After=network.target
+
+[Service]
+User=www-data
+WorkingDirectory=/var/www/clubauth
+ExecStart=/var/www/clubauth/.venv/bin/gunicorn clubauth.wsgi:application \
+          --bind 127.0.0.1:8010 \
+          --workers 2 \
+          --timeout 60 \
+          --access-logfile /var/log/clubauth/access.log \
+          --error-logfile  /var/log/clubauth/error.log
+Restart=on-failure
+EnvironmentFile=/var/www/clubauth/.env
+
+[Install]
+WantedBy=multi-user.target

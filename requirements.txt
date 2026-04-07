@@ -1,0 +1,5 @@
+Django>=4.2,<6.0
+django-oauth-toolkit[rsa]>=2.3.0
+social-auth-app-django>=5.4.0
+python-decouple>=3.8
+gunicorn>=21.2.0
