@@ -108,7 +108,8 @@ OAUTH2_PROVIDER = {
     "ACCESS_TOKEN_EXPIRE_SECONDS": 3600,       # 1 Stunde
     "REFRESH_TOKEN_EXPIRE_SECONDS": 604800,    # 7 Tage
     "ROTATE_REFRESH_TOKEN": True,
-    "PKCE_REQUIRED": True,
+    # PKCE nur für Public Clients erzwingen; Confidential Clients (mit Secret) brauchen kein PKCE
+    "PKCE_REQUIRED": False,
 }
 
 # ---------------------------------------------------------------------------
