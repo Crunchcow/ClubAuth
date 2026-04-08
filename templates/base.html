@@ -30,7 +30,10 @@
     <a class="navbar-brand fw-bold" href="/">⚽ FCTM ClubAuth</a>
     {% if user.is_authenticated %}
     <div class="d-flex align-items-center gap-3">
-      <span class="text-white small">{{ user.display_name }}</span>
+      <a href="{% url 'profile' %}" class="text-white small text-decoration-none">{{ user.display_name }}</a>
+      {% if user.is_staff %}
+      <a href="/admin/" class="btn btn-outline-warning btn-sm">Admin</a>
+      {% endif %}
       <a href="{% url 'logout' %}" class="btn btn-outline-light btn-sm">Abmelden</a>
     </div>
     {% endif %}

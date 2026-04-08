@@ -28,6 +28,9 @@
           <a href="{% url 'password_change' %}" class="btn btn-sm btn-outline-secondary">
             Passwort ändern
           </a>
+          {% if user.is_staff %}
+          <a href="/admin/" class="btn btn-sm btn-warning">⚙ Admin-Bereich</a>
+          {% endif %}
         </div>
       </div>
     </div>
