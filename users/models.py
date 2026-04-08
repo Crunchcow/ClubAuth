@@ -42,13 +42,16 @@ class AppRoleAssignment(models.Model):
         VEREINSHEIMBUCHUNG = "vereinsheimbuchung", "Vereinsheimbuchung"
         TENNISCOURTS = "tenniscourts", "Tenniscourts"
         VEREINSHEIM = "vereinsheim", "Vereinsheim"
+        KURSANMELDUNG = "kursanmeldung", "Kursanmeldung"
 
     class Role(models.TextChoices):
         ADMIN = "admin", "Admin"
         KOORDINATOR = "koordinator", "Koordinator"     # Spielbetrieb
         BENUTZER = "benutzer", "Benutzer / Trainer"    # Spielbetrieb
-        VERWALTUNG = "verwaltung", "Verwaltung"        # Vereinsheimbuchung
+        VERWALTUNG = "verwaltung", "Verwaltung"        # Vereinsheimbuchung / Kursanmeldung
         VIEWER = "viewer", "Nur lesen"
+        KASSIERER = "kassierer", "Kassierer"           # Kursanmeldung
+        KURSLEITUNG = "kursleitung", "Kursleitung"     # Kursanmeldung
 
     user = models.ForeignKey(
         CustomUser,
