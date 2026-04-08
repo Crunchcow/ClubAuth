@@ -12,8 +12,9 @@ class CustomOAuth2Validator(OAuth2Validator):
         if not user or not user.is_authenticated:
             return claims
 
-        # Anzeigename
+        # Anzeigename und E-Mail explizit setzen
         claims["name"] = user.display_name
+        claims["email"] = user.email
 
         # Alle Rollenzuweisungen als Dict: { "spielbetrieb": { "role": "benutzer", "team": "1. Herren" }, ... }
         roles = {}
