@@ -1,6 +1,7 @@
+from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.conf import settings
 from django.views.decorators.http import require_GET
@@ -33,6 +34,13 @@ class ClubAuthLoginView(LoginView):
 def profile_view(request):
     roles = AppRoleAssignment.objects.filter(user=request.user).order_by("app")
     return render(request, "users/profile.html", {"roles": roles})
+
+
+def hub_logout(request):
+    """Logout per GET – für Hub-Verwendung (kein CSRF nötig)."""
+    auth_logout(request)
+    hub_origin = getattr(settings, "HUB_ORIGIN", "http://89.167.0.28:8088")
+    return redirect(hub_origin)
 
 
 @require_GET

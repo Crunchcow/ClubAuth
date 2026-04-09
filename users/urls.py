@@ -17,4 +17,5 @@ urlpatterns = [
         name="password_change",
     ),
     path("api/hub-status/", views.hub_status, name="hub_status"),
+    path("api/hub-logout/", views.hub_logout, name="hub_logout"),
 ]
