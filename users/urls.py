@@ -16,4 +16,5 @@ urlpatterns = [
         auth_views.PasswordChangeView.as_view(success_url="/profile/"),
         name="password_change",
     ),
+    path("api/hub-status/", views.hub_status, name="hub_status"),
 ]

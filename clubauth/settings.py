@@ -84,8 +84,8 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+LOGIN_REDIRECT_URL = config("LOGIN_REDIRECT_URL", default="/profile/")
 LOGIN_URL = "/accounts/login/"
-LOGIN_REDIRECT_URL = "/profile/"
 LOGOUT_REDIRECT_URL = "/accounts/login/"
 
 # ---------------------------------------------------------------------------
@@ -121,6 +121,9 @@ SOCIAL_AUTH_MICROSOFT_OAUTH2_TENANT_ID = config("MS_TENANT_ID", default="common"
 SOCIAL_AUTH_MICROSOFT_OAUTH2_SCOPE = ["openid", "email", "profile", "User.Read"]
 
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/profile/"
+
+# Hub status API: CORS für den Hub erlauben
+HUB_ORIGIN = config("HUB_ORIGIN", default="http://89.167.0.28:8088")
 SOCIAL_AUTH_LOGIN_ERROR_URL = "/accounts/login/?error=social"
 SOCIAL_AUTH_NEW_USER_REDIRECT_URL = "/profile/"
 
