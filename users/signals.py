@@ -19,10 +19,15 @@ _VEREINSHEIMBUCHUNG_APP  = AppRoleAssignment.App.VEREINSHEIMBUCHUNG
 
 def _notify(webhook_url, user, role, action="upsert"):
     """Sendet eine Webhook-Anfrage an eine App."""
+    import urllib.parse
     api_key = getattr(settings, "INTERNAL_API_KEY", "")
     if not webhook_url or not api_key:
         logger.warning("Webhook-URL oder INTERNAL_API_KEY fehlt – Sync übersprungen für %s", user.email)
         return
+    # Host-Header aus der konfigurierten Webhook-URL ableiten, damit Django
+    # ALLOWED_HOSTS nicht blockiert (relevant wenn interne IP/Port genutzt wird)
+    parsed = urllib.parse.urlparse(webhook_url)
+    host_header = parsed.hostname  # nur Hostname ohne Port
     payload = {
         "action":     action,
         "email":      user.email,
@@ -30,11 +35,14 @@ def _notify(webhook_url, user, role, action="upsert"):
         "last_name":  user.last_name,
         "role":       role,
     }
+    headers = {"Authorization": f"Bearer {api_key}"}
+    if host_header:
+        headers["Host"] = host_header
     try:
         resp = requests.post(
             f"{webhook_url.rstrip('/')}/api/sync-user/",
             json=payload,
-            headers={"Authorization": f"Bearer {api_key}"},
+            headers=headers,
             timeout=5,
         )
         resp.raise_for_status()
