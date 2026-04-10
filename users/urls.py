@@ -18,4 +18,5 @@ urlpatterns = [
     ),
     path("api/hub-status/", views.hub_status, name="hub_status"),
     path("api/hub-logout/", views.hub_logout, name="hub_logout"),
+    path("api/app-users/", views.app_users, name="app_users"),
 ]

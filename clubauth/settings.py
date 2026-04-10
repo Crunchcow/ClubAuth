@@ -124,6 +124,10 @@ SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/profile/"
 
 # Hub status API: CORS für den Hub erlauben
 HUB_ORIGIN = config("HUB_ORIGIN", default="http://89.167.0.28:8088")
+
+# Interner API-Key für app-to-app Kommunikation (z.B. Kursanmeldung sync)
+INTERNAL_API_KEY = config("INTERNAL_API_KEY", default="")
+
 SOCIAL_AUTH_LOGIN_ERROR_URL = "/accounts/login/?error=social"
 SOCIAL_AUTH_NEW_USER_REDIRECT_URL = "/profile/"
 

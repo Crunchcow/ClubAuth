@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from django.conf import settings
 from django.views.decorators.http import require_GET
 from .models import AppRoleAssignment
+import hmac
 
 
 # App-Namen → Hub-Kachel-Keys (müssen mit index.html data-app übereinstimmen)
@@ -41,6 +42,34 @@ def hub_logout(request):
     auth_logout(request)
     hub_origin = getattr(settings, "HUB_ORIGIN", "http://89.167.0.28:8088")
     return redirect(hub_origin)
+
+
+@require_GET
+def app_users(request):
+    """Gibt alle User einer App mit ihren Rollen zurück.
+    Gesichert via INTERNAL_API_KEY im Authorization-Header."""
+    expected_key = getattr(settings, "INTERNAL_API_KEY", "")
+    auth_header = request.META.get("HTTP_AUTHORIZATION", "")
+    token = auth_header.removeprefix("Bearer ").strip()
+
+    if not expected_key or not hmac.compare_digest(token, expected_key):
+        return JsonResponse({"error": "Unauthorized"}, status=401)
+
+    app = request.GET.get("app", "")
+    if not app:
+        return JsonResponse({"error": "Missing 'app' parameter"}, status=400)
+
+    assignments = AppRoleAssignment.objects.filter(app=app).select_related("user")
+    users = [
+        {
+            "email":      a.user.email,
+            "first_name": a.user.first_name,
+            "last_name":  a.user.last_name,
+            "role":       a.role,
+        }
+        for a in assignments
+    ]
+    return JsonResponse({"users": users})
 
 
 @require_GET
