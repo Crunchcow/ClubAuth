@@ -70,3 +70,9 @@ def on_user_saved(sender, instance, **kwargs):
         user=instance, app=_KURSANMELDUNG_APP
     ):
         _notify_kursanmeldung(instance, assignment.role, action="upsert")
+
+
+@receiver(post_delete, sender="users.CustomUser")
+def on_user_deleted(sender, instance, **kwargs):
+    """Wenn ein ClubAuth-User gelöscht wird, wird er auch aus der Kursanmeldung entfernt."""
+    _notify_kursanmeldung(instance, "", action="delete")
