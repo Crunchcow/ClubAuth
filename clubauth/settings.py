@@ -88,6 +88,10 @@ LOGIN_REDIRECT_URL = config("LOGIN_REDIRECT_URL", default="/profile/")
 LOGIN_URL = "/accounts/login/"
 LOGOUT_REDIRECT_URL = "/accounts/login/"
 
+# Eindeutiger Cookie-Name, damit kein Konflikt mit anderen Apps auf derselben IP
+SESSION_COOKIE_NAME = config("SESSION_COOKIE_NAME", default="clubauth_sessionid")
+CSRF_COOKIE_NAME    = config("CSRF_COOKIE_NAME",    default="clubauth_csrftoken")
+
 # ---------------------------------------------------------------------------
 # OIDC / OAuth2-Provider (django-oauth-toolkit)
 # ---------------------------------------------------------------------------
