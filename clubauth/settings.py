@@ -17,7 +17,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "oauth2_provider",
     "social_django",
-    "users",
+    "users.apps.UsersConfig",
 ]
 
 MIDDLEWARE = [
@@ -127,6 +127,9 @@ HUB_ORIGIN = config("HUB_ORIGIN", default="http://89.167.0.28:8088")
 
 # Interner API-Key für app-to-app Kommunikation (z.B. Kursanmeldung sync)
 INTERNAL_API_KEY = config("INTERNAL_API_KEY", default="")
+
+# Webhook-URL der Kursanmeldung für automatischen User-Sync
+KURSANMELDUNG_WEBHOOK_URL = config("KURSANMELDUNG_WEBHOOK_URL", default="")
 
 SOCIAL_AUTH_LOGIN_ERROR_URL = "/accounts/login/?error=social"
 SOCIAL_AUTH_NEW_USER_REDIRECT_URL = "/profile/"
