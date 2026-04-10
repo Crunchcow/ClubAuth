@@ -135,6 +135,9 @@ INTERNAL_API_KEY = config("INTERNAL_API_KEY", default="")
 # Webhook-URL der Kursanmeldung für automatischen User-Sync
 KURSANMELDUNG_WEBHOOK_URL = config("KURSANMELDUNG_WEBHOOK_URL", default="")
 
+# Webhook-URL der Vereinsheimbuchung für automatischen User-Sync
+VEREINSHEIMBUCHUNG_WEBHOOK_URL = config("VEREINSHEIMBUCHUNG_WEBHOOK_URL", default="")
+
 SOCIAL_AUTH_LOGIN_ERROR_URL = "/accounts/login/?error=social"
 SOCIAL_AUTH_NEW_USER_REDIRECT_URL = "/profile/"
 
