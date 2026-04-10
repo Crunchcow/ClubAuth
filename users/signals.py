@@ -60,3 +60,13 @@ def on_role_assignment_deleted(sender, instance, **kwargs):
     if instance.app != _KURSANMELDUNG_APP:
         return
     _notify_kursanmeldung(instance.user, instance.role, action="remove")
+
+
+@receiver(post_save, sender="users.CustomUser")
+def on_user_saved(sender, instance, **kwargs):
+    """Beim Speichern eines Users alle Kursanmeldung-Assignments synchronisieren.
+    So wird der Sync auch ausgelöst wenn der Admin-Inline unverändert bleibt."""
+    for assignment in AppRoleAssignment.objects.filter(
+        user=instance, app=_KURSANMELDUNG_APP
+    ):
+        _notify_kursanmeldung(instance, assignment.role, action="upsert")
