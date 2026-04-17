@@ -43,6 +43,7 @@ class AppRoleAssignment(models.Model):
         TENNISCOURTS = "tenniscourts", "Tenniscourts"
         VEREINSHEIM = "vereinsheim", "Vereinsheim"
         KURSANMELDUNG = "kursanmeldung", "Kursanmeldung"
+        SCHLUESSELVERWALTUNG = "schluesselverwaltung", "Schlüsselverwaltung"
 
     class Role(models.TextChoices):
         ADMIN = "admin", "Admin"
