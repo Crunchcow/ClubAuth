@@ -13,7 +13,7 @@ class AppRoleAssignmentInline(admin.TabularInline):
 
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
-    list_display = ("email", "display_name", "is_active", "is_staff", "date_joined")
+    list_display = ("email", "display_name", "is_active", "is_staff", "must_change_password", "date_joined")
     list_filter = ("is_active", "is_staff")
     search_fields = ("email", "first_name", "last_name")
     ordering = ("last_name", "first_name")
@@ -32,6 +32,7 @@ class CustomUserAdmin(UserAdmin):
                     "is_active",
                     "is_staff",
                     "is_superuser",
+                    "must_change_password",
                     "groups",
                     "user_permissions",
                 )
@@ -52,6 +53,7 @@ class CustomUserAdmin(UserAdmin):
                     "last_name",
                     "password1",
                     "password2",
+                    "must_change_password",
                 ),
             },
         ),

@@ -16,6 +16,11 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     microsoft_oid = models.CharField(
         max_length=200, blank=True, db_index=True, verbose_name="Microsoft OID"
     )
+    must_change_password = models.BooleanField(
+        default=False,
+        verbose_name="Passwort beim nächsten Login ändern",
+        help_text="Wenn gesetzt, wird der Benutzer nach dem Login sofort zur Passwort-Änderung weitergeleitet.",
+    )
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["first_name", "last_name"]

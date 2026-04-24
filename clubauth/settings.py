@@ -29,6 +29,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "social_django.middleware.SocialAuthExceptionMiddleware",
+    "users.middleware.ForcePasswordChangeMiddleware",
 ]
 
 ROOT_URLCONF = "clubauth.urls"
@@ -83,6 +84,18 @@ STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# ---------------------------------------------------------------------------
+# E-Mail / SMTP
+# ---------------------------------------------------------------------------
+EMAIL_BACKEND = config("EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend")
+EMAIL_HOST = config("EMAIL_HOST", default="localhost")
+EMAIL_PORT = config("EMAIL_PORT", default=587, cast=int)
+EMAIL_USE_TLS = config("EMAIL_USE_TLS", default=True, cast=bool)
+EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="")
+DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default="ClubAuth <noreply@westfalia-osterwick.de>")
+PASSWORD_RESET_TIMEOUT = 3600  # Link gültig 1 Stunde
 
 LOGIN_REDIRECT_URL = config("LOGIN_REDIRECT_URL", default="/profile/")
 LOGIN_URL = "/accounts/login/"

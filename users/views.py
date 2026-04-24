@@ -1,10 +1,12 @@
-from django.contrib.auth import logout as auth_logout
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth import logout as auth_logout, update_session_auth_hash
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.conf import settings
 from django.views.decorators.http import require_GET
+from django.contrib import messages
 from .models import AppRoleAssignment
 import hmac
 
@@ -35,6 +37,39 @@ class ClubAuthLoginView(LoginView):
 def profile_view(request):
     roles = AppRoleAssignment.objects.filter(user=request.user).order_by("app")
     return render(request, "users/profile.html", {"roles": roles})
+
+
+@login_required
+def force_password_change(request):
+    """Erzwingt Passwort-Änderung wenn must_change_password gesetzt ist."""
+    if not request.user.must_change_password:
+        return redirect(settings.LOGIN_REDIRECT_URL)
+
+    if request.method == "POST":
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            user.must_change_password = False
+            user.save(update_fields=["must_change_password"])
+            update_session_auth_hash(request, user)
+            messages.success(request, "Dein Passwort wurde erfolgreich gesetzt.")
+            return redirect(settings.LOGIN_REDIRECT_URL)
+    else:
+        form = PasswordChangeForm(request.user)
+
+    return render(request, "registration/force_password_change.html", {"form": form})
+
+
+class ClubAuthPasswordChangeView(PasswordChangeView):
+    """Überschreibt die Standard-PasswordChangeView, um den must_change_password-Flag zurückzusetzen."""
+    template_name = "registration/password_change_form.html"
+    success_url = "/profile/"
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        self.request.user.must_change_password = False
+        self.request.user.save(update_fields=["must_change_password"])
+        return response
 
 
 def hub_logout(request):
