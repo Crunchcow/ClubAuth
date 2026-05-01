@@ -105,6 +105,14 @@ LOGOUT_REDIRECT_URL = "/accounts/login/"
 SESSION_COOKIE_NAME = config("SESSION_COOKIE_NAME", default="clubauth_sessionid")
 CSRF_COOKIE_NAME    = config("CSRF_COOKIE_NAME",    default="clubauth_csrftoken")
 
+CSRF_TRUSTED_ORIGINS = config(
+    "CSRF_TRUSTED_ORIGINS",
+    default="http://89.167.0.28:8099,http://auth.westfalia-osterwick.de",
+    cast=Csv(),
+)
+
+USE_X_FORWARDED_HOST = True
+
 # ---------------------------------------------------------------------------
 # OIDC / OAuth2-Provider (django-oauth-toolkit)
 # ---------------------------------------------------------------------------
