@@ -49,6 +49,7 @@ class AppRoleAssignment(models.Model):
         VEREINSHEIM = "vereinsheim", "Vereinsheim"
         KURSANMELDUNG = "kursanmeldung", "Kursanmeldung"
         SCHLUESSELVERWALTUNG = "schluesselverwaltung", "Schlüsselverwaltung"
+        KALENDER = "kalender", "Vereinskalender"
 
     class Role(models.TextChoices):
         ADMIN = "admin", "Admin"

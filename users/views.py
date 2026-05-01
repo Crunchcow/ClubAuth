@@ -18,6 +18,7 @@ _APP_TILE_MAP = {
     AppRoleAssignment.App.TENNISCOURTS:       "tennis",
     AppRoleAssignment.App.SPIELBETRIEB:       "spielbetrieb",
     AppRoleAssignment.App.KURSANMELDUNG:      "kurse",
+    AppRoleAssignment.App.KALENDER:           "kalender",
 }
 
 
