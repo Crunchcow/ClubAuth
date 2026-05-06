@@ -135,6 +135,8 @@ OAUTH2_PROVIDER = {
     "ROTATE_REFRESH_TOKEN": True,
     # PKCE nur für Public Clients erzwingen; Confidential Clients (mit Secret) brauchen kein PKCE
     "PKCE_REQUIRED": False,
+    # Secrets im Klartext speichern (alle Apps nutzen Plaintext-Secrets in .env)
+    "HASH_CLIENT_SECRET": False,
 }
 
 # ---------------------------------------------------------------------------
