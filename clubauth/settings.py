@@ -105,6 +105,14 @@ LOGOUT_REDIRECT_URL = "/accounts/login/"
 SESSION_COOKIE_NAME = config("SESSION_COOKIE_NAME", default="clubauth_sessionid")
 CSRF_COOKIE_NAME    = config("CSRF_COOKIE_NAME",    default="clubauth_csrftoken")
 
+# Cookie-Einstellungen für HTTP→HTTPS Cross-Origin (Hub läuft auf HTTPS, ClubAuth auf HTTP)
+SESSION_COOKIE_SECURE = config("SESSION_COOKIE_SECURE", default=False, cast=bool)
+CSRF_COOKIE_SECURE = config("CSRF_COOKIE_SECURE", default=False, cast=bool)
+SESSION_COOKIE_SAMESITE = config("SESSION_COOKIE_SAMESITE", default="Lax")
+CSRF_COOKIE_SAMESITE = config("CSRF_COOKIE_SAMESITE", default="Lax")
+SESSION_COOKIE_DOMAIN = config("SESSION_COOKIE_DOMAIN", default=None) or None
+CSRF_COOKIE_DOMAIN = config("CSRF_COOKIE_DOMAIN", default=None) or None
+
 CSRF_TRUSTED_ORIGINS = config(
     "CSRF_TRUSTED_ORIGINS",
     default="http://89.167.0.28:8099,http://auth.westfalia-osterwick.de",
