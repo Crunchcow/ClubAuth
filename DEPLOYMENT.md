@@ -7,7 +7,7 @@
 | **Stack** | Python + Django 4.2, django-oauth-toolkit (OIDC), social-auth-app-django |
 | **Datenbank** | SQLite (`db.sqlite3`, lokal auf dem Server – **nicht im Repo**) |
 | **Server** | `89.167.0.28` – Hostname: `WestfaliaOsterwick` (Ubuntu 24.04) |
-| **App-Pfad** | `/var/www/clubauth/` |
+| **App-Pfad** | `/var/www/_westfalia/clubauth/` |
 | **Service** | systemd → `clubauth.service` (Port 8010) |
 | **Nginx** | `/etc/nginx/sites-enabled/clubauth` |
 | **URL** | `https://auth.westfalia-osterwick.de` |
@@ -184,7 +184,7 @@ Rollen werden im Django Admin unter **Users → Benutzer → Rollenzuweisungen**
 
 ## Offene Punkte
 
-- [ ] DNS-Eintrag `auth.westfalia-osterwick.de` → `89.167.0.28` setzen
-- [ ] SSL via Certbot einrichten (Befehl s. o.)
+- [x] DNS-Eintrag `auth.westfalia-osterwick.de` → `89.167.0.28` setzen
+- [x] SSL via Certbot einrichten (Befehl s. o.)
 - [ ] Spielbetrieb als erste OIDC-App registrieren
 - [ ] Microsoft-Login konfigurieren (sobald Azure-App-Registrierung vorliegt)
