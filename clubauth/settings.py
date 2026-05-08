@@ -100,6 +100,7 @@ PASSWORD_RESET_TIMEOUT = 3600  # Link gültig 1 Stunde
 LOGIN_REDIRECT_URL = config("LOGIN_REDIRECT_URL", default="/profile/")
 LOGIN_URL = "/accounts/login/"
 LOGOUT_REDIRECT_URL = "/accounts/login/"
+ALLOWED_REDIRECT_HOSTS = ["hub.westfalia-osterwick.de", "auth.westfalia-osterwick.de"]
 
 # Eindeutiger Cookie-Name, damit kein Konflikt mit anderen Apps auf derselben IP
 SESSION_COOKIE_NAME = config("SESSION_COOKIE_NAME", default="clubauth_sessionid")

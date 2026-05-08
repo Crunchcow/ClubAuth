@@ -25,6 +25,24 @@ _APP_TILE_MAP = {
 class ClubAuthLoginView(LoginView):
     template_name = "registration/login.html"
 
+    def get(self, request, *args, **kwargs):
+        next_url = request.GET.get("next", "")
+        if next_url.startswith("http://"):
+            new_next = next_url.replace("http://", "https://", 1)
+            params = request.GET.copy()
+            params["next"] = new_next
+            request.GET = params
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        next_url = request.POST.get("next", "") or request.GET.get("next", "")
+        if next_url.startswith("http://"):
+            new_next = next_url.replace("http://", "https://", 1)
+            post = request.POST.copy()
+            post["next"] = new_next
+            request.POST = post
+        return super().post(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx["ms_enabled"] = bool(
