@@ -3,7 +3,7 @@ from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseNotAllowed
 from django.conf import settings
 from django.views.decorators.http import require_GET
 from django.contrib import messages
@@ -108,17 +108,26 @@ def app_users(request):
     return JsonResponse({"users": users})
 
 
-@require_GET
 def hub_status(request):
     """Gibt den Login-Status und erlaubte Apps für den Hub zurück.
-    CORS-Header erlauben den Aufruf vom Hub (anderer Port)."""
+    CORS-Header erlauben den Aufruf vom Hub (anderer Origin)."""
     hub_origin = getattr(settings, "HUB_ORIGIN", "http://89.167.0.28:8088")
 
-    if not request.user.is_authenticated:
-        response = JsonResponse({"authenticated": False})
+    def _cors(response):
         response["Access-Control-Allow-Origin"] = hub_origin
         response["Access-Control-Allow-Credentials"] = "true"
+        response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+        response["Access-Control-Allow-Headers"] = "Content-Type"
         return response
+
+    if request.method == "OPTIONS":
+        return _cors(HttpResponse(status=204))
+
+    if request.method != "GET":
+        return HttpResponseNotAllowed(["GET", "OPTIONS"])
+
+    if not request.user.is_authenticated:
+        return _cors(JsonResponse({"authenticated": False}))
 
     assignments = AppRoleAssignment.objects.filter(
         user=request.user
@@ -140,7 +149,4 @@ def hub_status(request):
         "is_admin": request.user.is_staff,
         "allowed_tiles": allowed_tiles,
     }
-    response = JsonResponse(data)
-    response["Access-Control-Allow-Origin"] = hub_origin
-    response["Access-Control-Allow-Credentials"] = "true"
-    return response
+    return _cors(JsonResponse(data))
