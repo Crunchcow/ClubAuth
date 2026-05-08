@@ -49,6 +49,10 @@ class ClubAuthLoginView(LoginView):
             getattr(settings, "SOCIAL_AUTH_MICROSOFT_OAUTH2_KEY", "")
         )
         ctx["error"] = self.request.GET.get("error")
+        next_url = self.request.POST.get("next") or self.request.GET.get("next", "")
+        if next_url.startswith("http://"):
+            next_url = "https://" + next_url[7:]
+        ctx["next_safe"] = next_url
         return ctx
 
 
